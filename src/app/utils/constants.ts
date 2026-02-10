@@ -15,6 +15,7 @@ export const API_ROUTES = {
         ANALYZE: '/resume/analyze',
         ANALYZE_UPLOAD: '/resume/analyze/upload',
         HISTORY: '/resume/history',
+        HISTORY_ITEM: (id: string) => `/resume/history/${id}`,
     },
 };
 
@@ -65,6 +66,19 @@ export const LABELS = {
     SHOWING_ANALYSES: 'Showing',
     OF_ANALYSES: 'of',
     ANALYSES: 'analyses',
+    RESUME_SCORE: 'Resume Score',
+    SCORE_SUMMARY: 'Summary',
+    KEYWORDS_PRESENT: 'Keywords in resume',
+    KEYWORDS_MISSING: 'Keywords to add',
+    EXPORT_PDF: 'Export PDF',
+    DELETE: 'Delete',
+    CONFIRM: 'Confirm',
+    CANCEL: 'Cancel',
+    DELETE_TITLE: 'Delete analysis',
+    CONFIRM_DELETE: 'Are you sure you want to delete this analysis?',
+    DELETE_FAILED: 'Failed to delete analysis',
+    VIEW_ANALYSIS: 'View Analysis',
+    HIDE_ANALYSIS: 'Hide Analysis',
 };
 
 export const NAV_LINKS = [

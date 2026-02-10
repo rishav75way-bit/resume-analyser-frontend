@@ -12,15 +12,21 @@ export interface AuthResponse {
     };
 }
 
+export interface AIResultData {
+    resumeScore?: number;
+    scoreSummary?: string;
+    strengths: string[];
+    weaknesses: string[];
+    improvementSuggestions: string[];
+    keywordsPresent?: string[];
+    keywordsMissing?: string[];
+}
+
 export interface ResumeAnalysis {
     _id: string;
     userId: string;
     resumeText: string;
-    aiResult: {
-        strengths: string[];
-        weaknesses: string[];
-        improvementSuggestions: string[];
-    };
+    aiResult: AIResultData;
     createdAt: string;
 }
 

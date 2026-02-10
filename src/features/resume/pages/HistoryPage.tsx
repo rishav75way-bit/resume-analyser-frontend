@@ -9,7 +9,7 @@ import { HistoryItem } from '../components/HistoryItem';
 import { Button } from '../../../app/components/Button';
 
 export const HistoryPage: React.FC = () => {
-    const { fetchHistory, history, isLoading, error, pagination } = useResumeAnalysis();
+    const { fetchHistory, deleteAnalysis, deletingId, history, isLoading, error, pagination } = useResumeAnalysis();
     const [currentPage, setCurrentPage] = useState(1);
     const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -44,7 +44,11 @@ export const HistoryPage: React.FC = () => {
         <div className="flex flex-col gap-6">
             {history.map((analysis, index) => (
                 <div key={analysis._id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
-                    <HistoryItem analysis={analysis} />
+                    <HistoryItem
+                        analysis={analysis}
+                        onDelete={deleteAnalysis}
+                        isDeleting={deletingId === analysis._id}
+                    />
                 </div>
             ))}
         </div>

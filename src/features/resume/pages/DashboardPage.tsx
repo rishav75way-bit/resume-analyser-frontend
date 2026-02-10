@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FileSearch, Upload, FileText } from 'lucide-react';
+import { FileSearch, Upload, FileText, FileDown } from 'lucide-react';
 import { useResumeAnalysis } from '../hooks/useResumeAnalysis';
 import { LABELS } from '../../../app/utils/constants';
+import { exportAnalysisToPdf } from '../../../app/utils/pdfExport';
 import { Card } from '../../../app/components/Card';
 import { TextArea } from '../../../app/components/TextArea';
 import { FileInput } from '../../../app/components/FileInput';
@@ -173,7 +174,16 @@ export const DashboardPage: React.FC = () => {
             </Card>
 
             {currentAnalysis && (
-                <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
+                    <div className="flex justify-end">
+                        <Button
+                            variant="secondary"
+                            onClick={() => exportAnalysisToPdf(currentAnalysis.aiResult)}
+                            icon={<FileDown size={18} />}
+                        >
+                            {LABELS.EXPORT_PDF}
+                        </Button>
+                    </div>
                     <AnalysisResult result={currentAnalysis.aiResult} />
                 </div>
             )}

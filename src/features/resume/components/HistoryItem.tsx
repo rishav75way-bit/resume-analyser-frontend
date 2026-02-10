@@ -1,16 +1,32 @@
 import React, { useState } from 'react';
-import { Clock, ChevronDown, ChevronUp } from 'lucide-react';
+import { Clock, ChevronDown, ChevronUp, Trash2, FileDown } from 'lucide-react';
 import { AnalysisResult } from './AnalysisResult';
 import { Card } from '../../../app/components/Card';
 import { Button } from '../../../app/components/Button';
+import { ConfirmModal } from '../../../app/components/ConfirmModal';
+import { LABELS } from '../../../app/utils/constants';
+import { exportAnalysisToPdf } from '../../../app/utils/pdfExport';
 import type { ResumeAnalysis } from '../../../app/types';
 
 interface HistoryItemProps {
     analysis: ResumeAnalysis;
+    onDelete: (analysisId: string) => Promise<boolean>;
+    isDeleting: boolean;
 }
 
-export const HistoryItem: React.FC<HistoryItemProps> = ({ analysis }) => {
+export const HistoryItem: React.FC<HistoryItemProps> = ({ analysis, onDelete, isDeleting }) => {
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+    const openDeleteModal = () => setIsDeleteModalOpen(true);
+    const closeDeleteModal = () => setIsDeleteModalOpen(false);
+
+    const confirmDelete = async () => {
+        const ok = await onDelete(analysis._id);
+        if (ok) {
+            closeDeleteModal();
+        }
+    };
 
     const formattedDate = new Date(analysis.createdAt).toLocaleDateString('en-US', {
         year: 'numeric',
@@ -23,45 +39,76 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({ analysis }) => {
     });
 
     return (
-        <Card className="hover:scale-[1.01] transition-transform duration-200">
-            <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800/50">
-                <div className="flex items-center gap-2 flex-1">
-                    <div className="p-1.5 rounded-lg bg-slate-800/50">
-                        <Clock size={16} className="text-slate-400" />
+        <>
+            <Card className="hover:scale-[1.01] transition-transform duration-200">
+                <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800/50">
+                    <div className="flex items-center gap-2 flex-1">
+                        <div className="p-1.5 rounded-lg bg-slate-800/50">
+                            <Clock size={16} className="text-slate-400" />
+                        </div>
+                        <div className="flex-1">
+                            <p className="text-sm font-medium text-slate-300">{formattedDate}</p>
+                            <p className="text-xs text-slate-500">{formattedTime}</p>
+                        </div>
                     </div>
-                    <div className="flex-1">
-                        <p className="text-sm font-medium text-slate-300">{formattedDate}</p>
-                        <p className="text-xs text-slate-500">{formattedTime}</p>
+                    <div className="flex items-center gap-2">
+                        <Button
+                            variant="ghost"
+                            onClick={() => exportAnalysisToPdf(analysis.aiResult)}
+                            className="text-sm gap-1.5 hover:bg-slate-800/50"
+                            icon={<FileDown size={16} />}
+                        >
+                            <span className="hidden sm:inline">{LABELS.EXPORT_PDF}</span>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            onClick={openDeleteModal}
+                            disabled={isDeleting}
+                            className="text-sm gap-1.5 hover:bg-red-500/10 text-slate-400 hover:text-red-400"
+                            icon={<Trash2 size={16} />}
+                        >
+                            <span className="hidden sm:inline">{LABELS.DELETE}</span>
+                        </Button>
+                        <Button
+                            variant="ghost"
+                            onClick={() => setIsExpanded(!isExpanded)}
+                            className="text-sm gap-1.5 hover:bg-slate-800/50"
+                        >
+                            {isExpanded ? (
+                                <>
+                                    <ChevronUp size={16} />
+                                    <span className="hidden sm:inline">{LABELS.HIDE_ANALYSIS}</span>
+                                </>
+                            ) : (
+                                <>
+                                    <ChevronDown size={16} />
+                                    <span className="hidden sm:inline">{LABELS.VIEW_ANALYSIS}</span>
+                                </>
+                            )}
+                        </Button>
                     </div>
                 </div>
-                <Button
-                    variant="ghost"
-                    onClick={() => setIsExpanded(!isExpanded)}
-                    className="text-sm gap-1.5 hover:bg-slate-800/50"
-                >
-                    {isExpanded ? (
-                        <>
-                            <ChevronUp size={16} />
-                            <span className="hidden sm:inline">Hide Analysis</span>
-                        </>
-                    ) : (
-                        <>
-                            <ChevronDown size={16} />
-                            <span className="hidden sm:inline">View Analysis</span>
-                        </>
-                    )}
-                </Button>
-            </div>
-            <div className="mb-4 p-4 rounded-lg bg-slate-800/30 border border-slate-700/30">
-                <p className={`text-slate-300 text-sm leading-relaxed italic ${isExpanded ? '' : 'line-clamp-3'}`}>
-                    "{analysis.resumeText}"
-                </p>
-            </div>
-            {isExpanded && (
-                <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-                    <AnalysisResult result={analysis.aiResult} />
+                <div className="mb-4 p-4 rounded-lg bg-slate-800/30 border border-slate-700/30">
+                    <p className={`text-slate-300 text-sm leading-relaxed italic ${isExpanded ? '' : 'line-clamp-3'}`}>
+                        "{analysis.resumeText}"
+                    </p>
                 </div>
-            )}
-        </Card>
+                {isExpanded && (
+                    <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+                        <AnalysisResult result={analysis.aiResult} />
+                    </div>
+                )}
+            </Card>
+            <ConfirmModal
+                isOpen={isDeleteModalOpen}
+                title={LABELS.DELETE_TITLE}
+                message={LABELS.CONFIRM_DELETE}
+                confirmLabel={LABELS.CONFIRM}
+                cancelLabel={LABELS.CANCEL}
+                isConfirmLoading={isDeleting}
+                onConfirm={confirmDelete}
+                onCancel={closeDeleteModal}
+            />
+        </>
     );
 };

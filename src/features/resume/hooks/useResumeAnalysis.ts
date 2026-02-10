@@ -14,6 +14,7 @@ export const useResumeAnalysis = () => {
     const [history, setHistory] = useState<ResumeAnalysis[]>([]);
     const [currentAnalysis, setCurrentAnalysis] = useState<ResumeAnalysis | null>(null);
     const [pagination, setPagination] = useState<PaginationInfo | null>(null);
+    const [deletingId, setDeletingId] = useState<string | null>(null);
 
     const analyze = async (resumeText: string, jobDescription?: string) => {
         setIsLoading(true);
@@ -87,5 +88,24 @@ export const useResumeAnalysis = () => {
         }
     }, []);
 
-    return { analyze, analyzeFromFile, fetchHistory, history, currentAnalysis, isLoading, error, pagination };
+    const deleteAnalysis = useCallback(async (analysisId: string) => {
+        setError(null);
+        setDeletingId(analysisId);
+        try {
+            await apiClient.delete(API_ROUTES.RESUME.HISTORY_ITEM(analysisId));
+            setHistory((prev) => prev.filter((a) => a._id !== analysisId));
+            setPagination((prev) =>
+                prev ? { ...prev, total: Math.max(0, prev.total - 1) } : null
+            );
+            return true;
+        } catch (err) {
+            const axiosError = err as AxiosError<BackendError>;
+            setError(axiosError.response?.data?.message || axiosError.message || LABELS.DELETE_FAILED);
+            return false;
+        } finally {
+            setDeletingId(null);
+        }
+    }, []);
+
+    return { analyze, analyzeFromFile, fetchHistory, deleteAnalysis, deletingId, history, currentAnalysis, isLoading, error, pagination };
 };
