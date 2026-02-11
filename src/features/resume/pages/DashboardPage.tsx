@@ -104,21 +104,23 @@ export const DashboardPage: React.FC = () => {
                     className="cursor-pointer"
                 />
                 {!selectedFile && (
-                    <div className="mt-2 p-6 border-2 border-dashed border-slate-700 rounded-lg bg-slate-800/30 text-center hover:border-primary-500/50 hover:bg-slate-800/50 transition-all duration-200">
-                        <Upload size={32} className="mx-auto mb-2 text-slate-500" />
-                        <p className="text-sm text-slate-400">{LABELS.FILE_UPLOAD_HINT}</p>
-                        <p className="text-xs text-slate-500 mt-1">{LABELS.MAX_FILE_SIZE}</p>
+                    <div className="mt-3 p-8 border-2 border-dashed border-slate-700/60 rounded-2xl bg-gradient-to-br from-slate-800/40 to-slate-800/20 text-center hover:border-primary-500/60 hover:bg-gradient-to-br hover:from-primary-500/5 hover:to-slate-800/30 transition-all duration-300 cursor-pointer">
+                        <div className="p-3 rounded-xl bg-primary-500/10 border border-primary-500/20 w-fit mx-auto mb-4">
+                            <Upload size={36} className="text-primary-400" />
+                        </div>
+                        <p className="text-sm font-medium text-slate-300 mb-1">{LABELS.FILE_UPLOAD_HINT}</p>
+                        <p className="text-xs text-slate-500 font-medium">{LABELS.MAX_FILE_SIZE}</p>
                     </div>
                 )}
             </div>
             {selectedFile && (
-                <div className="flex items-center gap-3 p-4 rounded-lg bg-slate-800/50 border border-slate-700/50 animate-in fade-in slide-in-from-top-2 duration-300">
-                    <div className="p-2 rounded-lg bg-primary-500/10">
-                        <FileText size={20} className="text-primary-400" />
+                <div className="flex items-center gap-4 p-5 rounded-2xl bg-gradient-to-r from-primary-500/10 via-slate-800/60 to-slate-800/60 border-2 border-primary-500/30 shadow-xl shadow-primary-500/10 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="p-3 rounded-xl bg-primary-500/20 border border-primary-500/30 shadow-lg">
+                        <FileText size={22} className="text-primary-300" />
                     </div>
                     <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-slate-200 truncate">{selectedFile.name}</p>
-                        <p className="text-xs text-slate-400">{(selectedFile.size / 1024).toFixed(2)} KB</p>
+                        <p className="text-sm font-semibold text-slate-100 truncate mb-1">{selectedFile.name}</p>
+                        <p className="text-xs text-slate-400 font-medium">{(selectedFile.size / 1024).toFixed(2)} KB</p>
                     </div>
                 </div>
             )}
@@ -136,35 +138,35 @@ export const DashboardPage: React.FC = () => {
     );
 
     return (
-        <div className="max-w-4xl mx-auto">
-            <div className="mb-6">
-                <h1 className="text-4xl font-bold text-white mb-2">{LABELS.PAGE_TITLE}</h1>
-                <p className="text-slate-400">{LABELS.PAGE_DESCRIPTION}</p>
+        <div className="max-w-5xl mx-auto">
+            <div className="mb-8">
+                <h1 className="text-5xl font-extrabold text-white mb-3 tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">{LABELS.PAGE_TITLE}</h1>
+                <p className="text-lg text-slate-400 font-medium">{LABELS.PAGE_DESCRIPTION}</p>
             </div>
             <Card title={LABELS.ANALYZE}>
-                <div className="flex gap-2 mb-6 border-b border-slate-800/50 pb-4">
+                <div className="flex gap-3 mb-8 border-b border-slate-800/60 pb-5">
                     <button
                         type="button"
                         onClick={() => handleModeChange('text')}
-                        className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                        className={`flex items-center gap-2.5 px-5 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${
                             uploadMode === 'text'
-                                ? 'text-primary-400 bg-primary-500/10 border border-primary-500/30'
-                                : 'text-slate-400 hover:text-slate-300 hover:bg-slate-800/50'
+                                ? 'text-primary-300 bg-gradient-to-r from-primary-500/20 to-primary-600/20 border-2 border-primary-500/40 shadow-lg shadow-primary-500/10'
+                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-2 border-transparent hover:border-slate-700/50'
                         }`}
                     >
-                        <FileText size={18} />
+                        <FileText size={18} className={uploadMode === 'text' ? 'text-primary-400' : ''} />
                         <span>{LABELS.PASTE_TEXT}</span>
                     </button>
                     <button
                         type="button"
                         onClick={() => handleModeChange('file')}
-                        className={`flex items-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg transition-all duration-200 ${
+                        className={`flex items-center gap-2.5 px-5 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${
                             uploadMode === 'file'
-                                ? 'text-primary-400 bg-primary-500/10 border border-primary-500/30'
-                                : 'text-slate-400 hover:text-slate-300 hover:bg-slate-800/50'
+                                ? 'text-primary-300 bg-gradient-to-r from-primary-500/20 to-primary-600/20 border-2 border-primary-500/40 shadow-lg shadow-primary-500/10'
+                                : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800/60 border-2 border-transparent hover:border-slate-700/50'
                         }`}
                     >
-                        <Upload size={18} />
+                        <Upload size={18} className={uploadMode === 'file' ? 'text-primary-400' : ''} />
                         <span>{LABELS.UPLOAD_PDF}</span>
                     </button>
                 </div>
@@ -174,12 +176,13 @@ export const DashboardPage: React.FC = () => {
             </Card>
 
             {currentAnalysis && (
-                <div className="mt-8 animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-4">
+                <div className="mt-10 animate-in fade-in slide-in-from-bottom-4 duration-500 space-y-6">
                     <div className="flex justify-end">
                         <Button
                             variant="secondary"
                             onClick={() => exportAnalysisToPdf(currentAnalysis.aiResult)}
                             icon={<FileDown size={18} />}
+                            className="shadow-lg"
                         >
                             {LABELS.EXPORT_PDF}
                         </Button>

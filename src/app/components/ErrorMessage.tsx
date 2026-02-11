@@ -10,9 +10,9 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = ({ message, className =
     if (!message) return null;
 
     return (
-        <div className={`flex items-center gap-2 text-sm text-red-500 bg-red-500/10 p-3 rounded-lg border border-red-500/20 ${className}`}>
-            <AlertCircle size={16} />
-            <span>{message}</span>
+        <div className={`flex items-start gap-3 text-sm text-red-400 bg-gradient-to-r from-red-950/40 to-red-900/30 p-4 rounded-xl border border-red-500/30 shadow-lg shadow-red-500/10 ${className}`}>
+            <AlertCircle size={18} className="flex-shrink-0 mt-0.5" />
+            <span className="font-medium leading-relaxed">{message}</span>
         </div>
     );
 };

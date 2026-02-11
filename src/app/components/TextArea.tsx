@@ -13,7 +13,7 @@ export const TextArea: React.FC<TextAreaProps> = ({ label, error, className = ''
         <div className={FORM_CONTAINER_STYLES}>
             {label && <label className={LABEL_STYLES}>{label}</label>}
             <textarea
-                className={`${INPUT_BASE_STYLES} ${borderStyles} min-h-[200px] resize-y ${className}`}
+                className={`${INPUT_BASE_STYLES} ${borderStyles} min-h-[200px] resize-y leading-relaxed ${className}`}
                 {...props}
             />
             {error && <span className={ERROR_TEXT_STYLES}>{error}</span>}

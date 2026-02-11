@@ -12,6 +12,7 @@ const LoginPage = lazy(() => import('../../features/auth/pages/LoginPage').then(
 const RegisterPage = lazy(() => import('../../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
 const DashboardPage = lazy(() => import('../../features/resume/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
 const HistoryPage = lazy(() => import('../../features/resume/pages/HistoryPage').then(module => ({ default: module.HistoryPage })));
+const AnalyticsPage = lazy(() => import('../../features/resume/pages/AnalyticsPage').then(module => ({ default: module.AnalyticsPage })));
 
 const LazyLoginPage = () => (
     <Suspense fallback={<PageLoader />}>
@@ -34,6 +35,12 @@ const LazyDashboardPage = () => (
 const LazyHistoryPage = () => (
     <Suspense fallback={<PageLoader />}>
         <HistoryPage />
+    </Suspense>
+);
+
+const LazyAnalyticsPage = () => (
+    <Suspense fallback={<PageLoader />}>
+        <AnalyticsPage />
     </Suspense>
 );
 
@@ -75,6 +82,14 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <LazyHistoryPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: ROUTES.ANALYTICS,
+                element: (
+                    <ProtectedRoute>
+                        <LazyAnalyticsPage />
                     </ProtectedRoute>
                 ),
             },

@@ -12,6 +12,56 @@ export interface AuthResponse {
     };
 }
 
+export interface ScoreTrend {
+    date: string;
+    score: number;
+}
+
+export interface KeywordTrend {
+    keyword: string;
+    count: number;
+    percentage: number;
+}
+
+export interface AnalyticsMetrics {
+    averageScore: number;
+    latestScore: number;
+    scoreImprovement: number;
+    totalAnalyses: number;
+    totalKeywords: number;
+}
+
+export interface AnalyticsData {
+    scoreTrends: ScoreTrend[];
+    keywordTrends: KeywordTrend[];
+    metrics: AnalyticsMetrics;
+}
+
+export interface AnalyticsResponse {
+    success: boolean;
+    data: AnalyticsData;
+}
+
+export interface ResumeLengthCheck {
+    wordCount: number;
+    pageEstimate: number;
+    status: 'optimal' | 'too-short' | 'too-long';
+    recommendation: string;
+}
+
+export interface FormattingIssue {
+    type: 'missing-section' | 'inconsistent-formatting' | 'poor-structure' | 'ats-unfriendly';
+    severity: 'warning' | 'error';
+    message: string;
+    suggestion: string;
+}
+
+export interface ATSWarning {
+    issue: string;
+    severity: 'low' | 'medium' | 'high';
+    recommendation: string;
+}
+
 export interface AIResultData {
     resumeScore?: number;
     scoreSummary?: string;
@@ -20,6 +70,9 @@ export interface AIResultData {
     improvementSuggestions: string[];
     keywordsPresent?: string[];
     keywordsMissing?: string[];
+    lengthCheck?: ResumeLengthCheck;
+    formattingIssues?: FormattingIssue[];
+    atsWarnings?: ATSWarning[];
 }
 
 export interface ResumeAnalysis {

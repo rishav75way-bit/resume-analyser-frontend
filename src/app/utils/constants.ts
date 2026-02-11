@@ -4,6 +4,7 @@ export const ROUTES = {
     REGISTER: '/register',
     DASHBOARD: '/dashboard',
     HISTORY: '/history',
+    ANALYTICS: '/analytics',
 };
 
 export const API_ROUTES = {
@@ -15,6 +16,7 @@ export const API_ROUTES = {
         ANALYZE: '/resume/analyze',
         ANALYZE_UPLOAD: '/resume/analyze/upload',
         HISTORY: '/resume/history',
+        ANALYTICS: '/resume/analytics',
         HISTORY_ITEM: (id: string) => `/resume/history/${id}`,
     },
 };
@@ -28,6 +30,7 @@ export const LABELS = {
     APP_NAME: 'ResumeAI',
     ANALYZE: 'Analyze',
     HISTORY: 'History',
+    ANALYTICS: 'Analytics',
     LOGOUT: 'Logout',
     LOGIN: 'Login',
     SIGN_UP: 'Sign Up',
@@ -79,11 +82,30 @@ export const LABELS = {
     DELETE_FAILED: 'Failed to delete analysis',
     VIEW_ANALYSIS: 'View Analysis',
     HIDE_ANALYSIS: 'Hide Analysis',
+    ANALYTICS_TITLE: 'Resume Analytics',
+    ANALYTICS_DESCRIPTION: 'Track your resume improvement over time',
+    SCORE_TRENDS: 'Score Trends',
+    KEYWORD_USAGE: 'Top Keywords',
+    AVERAGE_SCORE: 'Average Score',
+    LATEST_SCORE: 'Latest Score',
+    SCORE_IMPROVEMENT: 'Score Improvement',
+    TOTAL_ANALYSES: 'Total Analyses',
+    TOTAL_KEYWORDS: 'Total Keywords',
+    RESUME_LENGTH: 'Resume Length',
+    FORMATTING_ISSUES: 'Formatting Issues',
+    ATS_COMPATIBILITY: 'ATS Compatibility',
+    WORD_COUNT: 'Word Count',
+    PAGE_ESTIMATE: 'Page Estimate',
+    OPTIMAL: 'Optimal',
+    TOO_SHORT: 'Too Short',
+    TOO_LONG: 'Too Long',
+    NO_ANALYTICS_DATA: 'No analytics data available. Start analyzing resumes to see your progress!',
 };
 
 export const NAV_LINKS = [
     { to: ROUTES.DASHBOARD, label: LABELS.ANALYZE },
     { to: ROUTES.HISTORY, label: LABELS.HISTORY },
+    { to: ROUTES.ANALYTICS, label: LABELS.ANALYTICS },
 ];
 
 export const NAV_ICON_MAP: Record<string, string> = {

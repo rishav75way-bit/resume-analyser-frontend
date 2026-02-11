@@ -40,15 +40,15 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({ analysis, onDelete, is
 
     return (
         <>
-            <Card className="hover:scale-[1.01] transition-transform duration-200">
-                <div className="flex items-center justify-between mb-4 pb-4 border-b border-slate-800/50">
-                    <div className="flex items-center gap-2 flex-1">
-                        <div className="p-1.5 rounded-lg bg-slate-800/50">
-                            <Clock size={16} className="text-slate-400" />
+            <Card className="hover:scale-[1.01] hover:shadow-primary-500/5 transition-all duration-300">
+                <div className="flex items-center justify-between mb-5 pb-5 border-b border-slate-800/60">
+                    <div className="flex items-center gap-3 flex-1">
+                        <div className="p-2.5 rounded-xl bg-gradient-to-br from-primary-500/20 to-primary-600/10 border border-primary-500/30 shadow-lg">
+                            <Clock size={18} className="text-primary-400" />
                         </div>
                         <div className="flex-1">
-                            <p className="text-sm font-medium text-slate-300">{formattedDate}</p>
-                            <p className="text-xs text-slate-500">{formattedTime}</p>
+                            <p className="text-sm font-semibold text-slate-200 mb-1">{formattedDate}</p>
+                            <p className="text-xs text-slate-400 font-medium">{formattedTime}</p>
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -88,8 +88,8 @@ export const HistoryItem: React.FC<HistoryItemProps> = ({ analysis, onDelete, is
                         </Button>
                     </div>
                 </div>
-                <div className="mb-4 p-4 rounded-lg bg-slate-800/30 border border-slate-700/30">
-                    <p className={`text-slate-300 text-sm leading-relaxed italic ${isExpanded ? '' : 'line-clamp-3'}`}>
+                <div className="mb-5 p-5 rounded-xl bg-gradient-to-r from-slate-800/50 to-slate-800/30 border border-slate-700/50 shadow-inner">
+                    <p className={`text-slate-200 text-sm leading-relaxed font-medium ${isExpanded ? '' : 'line-clamp-3'}`}>
                         "{analysis.resumeText}"
                     </p>
                 </div>

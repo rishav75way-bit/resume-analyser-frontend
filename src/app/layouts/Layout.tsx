@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { FileSearch, History, LogOut, User, Menu, X } from 'lucide-react';
+import { FileSearch, History, LogOut, User, Menu, X, BarChart3 } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { logout } from '../store/slices/authSlice';
 import { ROUTES, LABELS, NAV_LINKS } from '../utils/constants';
@@ -9,6 +9,7 @@ import { Button } from '../components/Button';
 const NAV_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
     [ROUTES.DASHBOARD]: FileSearch,
     [ROUTES.HISTORY]: History,
+    [ROUTES.ANALYTICS]: BarChart3,
 };
 
 export const Layout: React.FC = () => {
@@ -32,9 +33,11 @@ export const Layout: React.FC = () => {
 
     const renderAuthenticatedNav = () => (
         <>
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-800/50 border border-slate-700">
-                <User size={14} className="text-slate-400" />
-                <span className="text-sm text-slate-300">{user?.email}</span>
+            <div className="hidden sm:flex items-center gap-2.5 px-4 py-2 rounded-xl bg-gradient-to-r from-slate-800/60 to-slate-800/40 border border-slate-700/60 shadow-md">
+                <div className="p-1 rounded-lg bg-primary-500/10 border border-primary-500/20">
+                    <User size={14} className="text-primary-400" />
+                </div>
+                <span className="text-sm font-medium text-slate-200">{user?.email}</span>
             </div>
             <Button variant="ghost" onClick={handleLogout} className="text-sm gap-2 hover:bg-slate-800/50">
                 <LogOut size={16} />
@@ -55,14 +58,16 @@ export const Layout: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-200">
-            <nav className="border-b border-slate-800/50 bg-slate-900/80 backdrop-blur-xl sticky top-0 z-50 shadow-lg shadow-black/20">
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-100">
+            <nav className="border-b border-slate-800/60 bg-slate-900/95 backdrop-blur-2xl sticky top-0 z-50 shadow-2xl shadow-black/40">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16 items-center">
                         <div className="flex items-center gap-4 sm:gap-8">
-                            <Link to={ROUTES.HOME} className="flex items-center gap-2 text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 bg-clip-text text-transparent hover:from-primary-300 hover:to-primary-500 transition-all duration-300">
-                                <FileSearch className="text-primary-500" size={24} />
-                                <span className="hidden sm:inline">{LABELS.APP_NAME}</span>
+                            <Link to={ROUTES.HOME} className="flex items-center gap-2.5 text-xl sm:text-2xl font-bold bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 bg-clip-text text-transparent hover:from-primary-300 hover:via-primary-400 hover:to-primary-500 transition-all duration-300 drop-shadow-lg">
+                                <div className="p-1.5 rounded-lg bg-primary-500/10 border border-primary-500/20">
+                                    <FileSearch className="text-primary-400" size={22} />
+                                </div>
+                                <span className="hidden sm:inline tracking-tight">{LABELS.APP_NAME}</span>
                             </Link>
                             {isAuthenticated && (
                                 <>
@@ -74,10 +79,10 @@ export const Layout: React.FC = () => {
                                                 <Link
                                                     key={link.to}
                                                     to={link.to}
-                                                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 ${
+                                                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
                                                         isActive
-                                                            ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
-                                                            : 'text-slate-400 hover:text-primary-400 hover:bg-slate-800/50'
+                                                            ? 'bg-gradient-to-r from-primary-500/20 to-primary-600/20 text-primary-300 border border-primary-500/40 shadow-lg shadow-primary-500/10'
+                                                            : 'text-slate-400 hover:text-primary-300 hover:bg-slate-800/60 border border-transparent hover:border-slate-700/50'
                                                     }`}
                                                 >
                                                     {Icon && <Icon size={18} />}
@@ -112,11 +117,11 @@ export const Layout: React.FC = () => {
                                         key={link.to}
                                         to={link.to}
                                         onClick={handleNavClick}
-                                        className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200 ${
-                                            isActive
-                                                ? 'bg-primary-500/20 text-primary-400 border border-primary-500/30'
-                                                : 'text-slate-400 hover:text-primary-400 hover:bg-slate-800/50'
-                                        }`}
+                                                    className={`flex items-center gap-3 px-4 py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
+                                                        isActive
+                                                            ? 'bg-gradient-to-r from-primary-500/20 to-primary-600/20 text-primary-300 border border-primary-500/40 shadow-md shadow-primary-500/10'
+                                                            : 'text-slate-400 hover:text-primary-300 hover:bg-slate-800/60 border border-transparent hover:border-slate-700/50'
+                                                    }`}
                                     >
                                         {Icon && <Icon size={20} />}
                                         <span className="font-medium">{link.label}</span>
@@ -133,7 +138,7 @@ export const Layout: React.FC = () => {
                     </div>
                 )}
             </nav>
-            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
                 <Outlet />
             </main>
         </div>

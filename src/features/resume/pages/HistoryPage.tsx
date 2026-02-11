@@ -29,13 +29,13 @@ export const HistoryPage: React.FC = () => {
     };
 
     const renderEmptyState = () => (
-        <Card className="py-12">
+        <Card className="py-16">
             <div className="flex flex-col items-center justify-center text-center">
-                <div className="p-4 rounded-full bg-slate-800/50 mb-4">
-                    <FileText size={48} className="text-slate-500" />
+                <div className="p-5 rounded-2xl bg-gradient-to-br from-slate-800/60 to-slate-800/40 border border-slate-700/60 mb-6 shadow-xl">
+                    <FileText size={56} className="text-slate-400" />
                 </div>
-                <h3 className="text-xl font-semibold text-slate-300 mb-2">{LABELS.NO_ANALYSIS_HISTORY}</h3>
-                <p className="text-slate-400 max-w-md">{LABELS.NO_HISTORY}</p>
+                <h3 className="text-2xl font-bold text-slate-200 mb-3 tracking-tight">{LABELS.NO_ANALYSIS_HISTORY}</h3>
+                <p className="text-slate-400 max-w-md text-base leading-relaxed">{LABELS.NO_HISTORY}</p>
             </div>
         </Card>
     );
@@ -58,8 +58,8 @@ export const HistoryPage: React.FC = () => {
         if (!pagination || pagination.total === 0) return null;
 
         return (
-            <div className="text-center text-sm text-slate-400 mb-4">
-                {LABELS.SHOWING_ANALYSES} {history.length} {LABELS.OF_ANALYSES} {pagination.total} {LABELS.ANALYSES}
+            <div className="text-center text-sm text-slate-300 mb-6 font-medium bg-slate-800/40 px-4 py-2.5 rounded-xl border border-slate-700/60 inline-block mx-auto">
+                {LABELS.SHOWING_ANALYSES} <span className="text-primary-400 font-bold">{history.length}</span> {LABELS.OF_ANALYSES} <span className="text-primary-400 font-bold">{pagination.total}</span> {LABELS.ANALYSES}
             </div>
         );
     };
@@ -83,10 +83,10 @@ export const HistoryPage: React.FC = () => {
     };
 
     return (
-        <div className="max-w-4xl mx-auto flex flex-col gap-8">
-            <div className="mb-2">
-                <h1 className="text-4xl font-bold text-white mb-2">{LABELS.HISTORY}</h1>
-                <p className="text-slate-400">{LABELS.VIEW_PAST_ANALYSES}</p>
+        <div className="max-w-5xl mx-auto flex flex-col gap-10">
+            <div className="mb-4">
+                <h1 className="text-5xl font-extrabold text-white mb-3 tracking-tight bg-gradient-to-r from-white via-slate-100 to-slate-300 bg-clip-text text-transparent">{LABELS.HISTORY}</h1>
+                <p className="text-lg text-slate-400 font-medium">{LABELS.VIEW_PAST_ANALYSES}</p>
             </div>
 
             {isLoading && history.length === 0 && (

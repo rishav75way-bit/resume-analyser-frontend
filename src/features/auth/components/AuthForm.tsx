@@ -46,8 +46,8 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
     return (
         <div className="flex justify-center items-center min-h-[calc(100vh-200px)] py-12">
-            <Card title={title} className="w-full max-w-md animate-in fade-in slide-in-from-bottom-4 duration-500">
-                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-5">
+            <Card title={title} className="w-full max-w-lg animate-in fade-in slide-in-from-bottom-4 duration-500">
+                <form onSubmit={form.handleSubmit(handleSubmit)} className="flex flex-col gap-6">
                     <Input
                         label={LABELS.EMAIL}
                         type="email"
@@ -65,13 +65,13 @@ export const AuthForm: React.FC<AuthFormProps> = ({
 
                     {error && <ErrorMessage message={error} />}
 
-                    <Button type="submit" isLoading={isLoading} className="mt-2 w-full">
+                    <Button type="submit" isLoading={isLoading} className="mt-2 w-full py-3 text-base">
                         {submitLabel}
                     </Button>
 
-                    <div className="text-center mt-6 pt-6 border-t border-slate-800/50">
-                        <span className="text-sm text-slate-400">{footerText} </span>
-                        <Link to={footerLinkTo} className="text-sm text-primary-400 hover:text-primary-300 font-medium transition-colors duration-200">
+                    <div className="text-center mt-8 pt-6 border-t border-slate-800/60">
+                        <span className="text-sm text-slate-400 font-medium">{footerText} </span>
+                        <Link to={footerLinkTo} className="text-sm text-primary-400 hover:text-primary-300 font-semibold transition-colors duration-300 underline decoration-primary-500/50 underline-offset-2 hover:decoration-primary-400">
                             {footerLinkText}
                         </Link>
                     </div>
