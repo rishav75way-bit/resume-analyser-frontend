@@ -99,3 +99,18 @@ export interface HistoryResponse {
     data: ResumeAnalysis[];
     pagination?: PaginationInfo;
 }
+
+export interface CoverLetter {
+    _id: string;
+    userId: string;
+    resumeText: string;
+    jobDescription?: string;
+    coverLetter: string;
+    createdAt: string;
+}
+
+export interface CoverLetterHistoryResponse {
+    success: boolean;
+    data: CoverLetter[];
+    pagination?: PaginationInfo;
+}

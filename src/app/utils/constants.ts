@@ -5,6 +5,8 @@ export const ROUTES = {
     DASHBOARD: '/dashboard',
     HISTORY: '/history',
     ANALYTICS: '/analytics',
+    COVER_LETTER: '/cover-letter',
+    COVER_LETTER_HISTORY: '/cover-letter/history',
 };
 
 export const API_ROUTES = {
@@ -18,6 +20,11 @@ export const API_ROUTES = {
         HISTORY: '/resume/history',
         ANALYTICS: '/resume/analytics',
         HISTORY_ITEM: (id: string) => `/resume/history/${id}`,
+    },
+    COVER_LETTER: {
+        GENERATE: '/cover-letter/generate',
+        HISTORY: '/cover-letter/history',
+        HISTORY_ITEM: (id: string) => `/cover-letter/history/${id}`,
     },
 };
 
@@ -100,12 +107,27 @@ export const LABELS = {
     TOO_SHORT: 'Too Short',
     TOO_LONG: 'Too Long',
     NO_ANALYTICS_DATA: 'No analytics data available. Start analyzing resumes to see your progress!',
+    COVER_LETTER: 'Cover Letter',
+    COVER_LETTER_TITLE: 'Cover Letter Generator',
+    COVER_LETTER_DESCRIPTION: 'Generate a personalized cover letter based on your resume and job description',
+    COVER_LETTER_HISTORY: 'Cover Letter History',
+    COVER_LETTER_HISTORY_DESCRIPTION: 'View and manage your generated cover letters',
+    NO_COVER_LETTER_HISTORY: 'No Cover Letter History',
+    NO_COVER_LETTERS: 'You haven\'t generated any cover letters yet. Start by creating your first cover letter!',
+    GENERATE_COVER_LETTER: 'Generate Cover Letter',
+    COVER_LETTER_PLACEHOLDER: 'Your generated cover letter will appear here...',
+    USE_RESUME_FROM_HISTORY: 'Use Resume from History',
+    SELECT_RESUME: 'Select Resume',
+    NO_RESUME_SELECTED: 'No resume selected',
+    COVER_LETTER_GENERATED: 'Cover letter generated successfully',
+    GENERATING: 'Generating...',
 };
 
 export const NAV_LINKS = [
     { to: ROUTES.DASHBOARD, label: LABELS.ANALYZE },
     { to: ROUTES.HISTORY, label: LABELS.HISTORY },
     { to: ROUTES.ANALYTICS, label: LABELS.ANALYTICS },
+    { to: ROUTES.COVER_LETTER, label: LABELS.COVER_LETTER },
 ];
 
 export const NAV_ICON_MAP: Record<string, string> = {

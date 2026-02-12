@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { FileSearch, History, LogOut, User, Menu, X, BarChart3 } from 'lucide-react';
+import { FileSearch, History, LogOut, User, Menu, X, BarChart3, FileText } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { logout } from '../store/slices/authSlice';
 import { ROUTES, LABELS, NAV_LINKS } from '../utils/constants';
@@ -10,6 +10,7 @@ const NAV_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
     [ROUTES.DASHBOARD]: FileSearch,
     [ROUTES.HISTORY]: History,
     [ROUTES.ANALYTICS]: BarChart3,
+    [ROUTES.COVER_LETTER]: FileText,
 };
 
 export const Layout: React.FC = () => {

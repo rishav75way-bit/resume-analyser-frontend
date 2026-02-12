@@ -5,7 +5,6 @@ import { Layout } from '../layouts/Layout';
 import { ProtectedRoute } from './ProtectedRoute';
 import { PublicRoute } from './PublicRoute';
 import { RootRedirect } from './RootRedirect';
-import { PageLoader } from './PageLoader';
 import { NotFoundPage } from '../pages/NotFoundPage';
 
 const LoginPage = lazy(() => import('../../features/auth/pages/LoginPage').then(module => ({ default: module.LoginPage })));
@@ -13,34 +12,48 @@ const RegisterPage = lazy(() => import('../../features/auth/pages/RegisterPage')
 const DashboardPage = lazy(() => import('../../features/resume/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
 const HistoryPage = lazy(() => import('../../features/resume/pages/HistoryPage').then(module => ({ default: module.HistoryPage })));
 const AnalyticsPage = lazy(() => import('../../features/resume/pages/AnalyticsPage').then(module => ({ default: module.AnalyticsPage })));
+const CoverLetterPage = lazy(() => import('../../features/coverLetter/pages/CoverLetterPage').then(module => ({ default: module.CoverLetterPage })));
+const CoverLetterHistoryPage = lazy(() => import('../../features/coverLetter/pages/CoverLetterHistoryPage').then(module => ({ default: module.CoverLetterHistoryPage })));
 
 const LazyLoginPage = () => (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={null}>
         <LoginPage />
     </Suspense>
 );
 
 const LazyRegisterPage = () => (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={null}>
         <RegisterPage />
     </Suspense>
 );
 
 const LazyDashboardPage = () => (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={null}>
         <DashboardPage />
     </Suspense>
 );
 
 const LazyHistoryPage = () => (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={null}>
         <HistoryPage />
     </Suspense>
 );
 
 const LazyAnalyticsPage = () => (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={null}>
         <AnalyticsPage />
+    </Suspense>
+);
+
+const LazyCoverLetterPage = () => (
+    <Suspense fallback={null}>
+        <CoverLetterPage />
+    </Suspense>
+);
+
+const LazyCoverLetterHistoryPage = () => (
+    <Suspense fallback={null}>
+        <CoverLetterHistoryPage />
     </Suspense>
 );
 
@@ -90,6 +103,22 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <LazyAnalyticsPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: ROUTES.COVER_LETTER,
+                element: (
+                    <ProtectedRoute>
+                        <LazyCoverLetterPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: ROUTES.COVER_LETTER_HISTORY,
+                element: (
+                    <ProtectedRoute>
+                        <LazyCoverLetterHistoryPage />
                     </ProtectedRoute>
                 ),
             },
