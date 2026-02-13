@@ -1,8 +1,8 @@
 import type React from 'react';
-import { CheckCircle, AlertCircle, Wand2, Star, Check, X, FileText, AlertTriangle, Shield } from 'lucide-react';
+import { CheckCircle, AlertCircle, Wand2, Star, Check, X, FileText, AlertTriangle, Shield, SpellCheck } from 'lucide-react';
 import { Card } from '../../../app/components/Card';
 import { LABELS } from '../../../app/utils/constants';
-import type { AIResultData, ResumeLengthCheck, FormattingIssue, ATSWarning } from '../../../app/types';
+import type { AIResultData, ResumeLengthCheck, FormattingIssue, ATSWarning, GrammarAndToneFeedback, GrammarToneItem } from '../../../app/types';
 
 interface AnalysisResultProps {
     result: AIResultData;
@@ -154,6 +154,71 @@ const renderFormattingIssues = (issues: FormattingIssue[]) => {
     );
 };
 
+const renderGrammarToneItem = (item: GrammarToneItem, index: number) => (
+    <div key={index} className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50">
+        <p className="text-slate-300 text-sm font-medium mb-1">
+            <span className="text-slate-500">&ldquo;</span>{item.excerpt}<span className="text-slate-500">&rdquo;</span>
+        </p>
+        <p className="text-slate-400 text-sm mb-2">{item.message}</p>
+        <p className="text-green-400/90 text-sm">
+            <span className="text-slate-500">{LABELS.SUGGESTED_CHANGE}:</span> {item.suggestion}
+        </p>
+    </div>
+);
+
+const renderGrammarAndTone = (feedback: GrammarAndToneFeedback) => {
+    const total = feedback.spelling.length + feedback.grammar.length + feedback.tone.length;
+    const hasIssues = total > 0;
+
+    return (
+        <Card className="animate-in fade-in slide-in-from-bottom-4">
+            <div className="flex items-center gap-4 mb-6">
+                <div className="p-4 rounded-2xl bg-violet-500/10 border border-violet-500/30 shadow-xl">
+                    <SpellCheck className="text-violet-400" size={28} />
+                </div>
+                <h3 className="text-2xl font-extrabold text-violet-400 tracking-tight">{LABELS.GRAMMAR_AND_TONE}</h3>
+            </div>
+            {feedback.summary && (
+                <div className="p-4 rounded-xl bg-slate-800/40 border border-slate-700/50 mb-6">
+                    <p className="text-sm text-slate-400 mb-1">{LABELS.GRAMMAR_AND_TONE_SUMMARY}</p>
+                    <p className="text-slate-200 leading-relaxed">{feedback.summary}</p>
+                </div>
+            )}
+            {!hasIssues && (
+                <p className="text-slate-400 font-medium">{LABELS.NO_GRAMMAR_ISSUES}</p>
+            )}
+            {hasIssues && (
+                <div className="flex flex-col gap-6">
+                    {feedback.spelling.length > 0 && (
+                        <div>
+                            <h4 className="text-lg font-semibold text-violet-300 mb-3">{LABELS.SPELLING_ISSUES}</h4>
+                            <div className="flex flex-col gap-3">
+                                {feedback.spelling.map((item, i) => renderGrammarToneItem(item, i))}
+                            </div>
+                        </div>
+                    )}
+                    {feedback.grammar.length > 0 && (
+                        <div>
+                            <h4 className="text-lg font-semibold text-violet-300 mb-3">{LABELS.GRAMMAR_ISSUES}</h4>
+                            <div className="flex flex-col gap-3">
+                                {feedback.grammar.map((item, i) => renderGrammarToneItem(item, i))}
+                            </div>
+                        </div>
+                    )}
+                    {feedback.tone.length > 0 && (
+                        <div>
+                            <h4 className="text-lg font-semibold text-violet-300 mb-3">{LABELS.TONE_SUGGESTIONS}</h4>
+                            <div className="flex flex-col gap-3">
+                                {feedback.tone.map((item, i) => renderGrammarToneItem(item, i))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            )}
+        </Card>
+    );
+};
+
 const renderATSWarnings = (warnings: ATSWarning[]) => {
     if (warnings.length === 0) return null;
 
@@ -202,8 +267,9 @@ export const AnalysisResult: React.FC<AnalysisResultProps> = ({ result }) => {
             {result.lengthCheck && renderLengthCheck(result.lengthCheck)}
             {result.formattingIssues && result.formattingIssues.length > 0 && renderFormattingIssues(result.formattingIssues)}
             {result.atsWarnings && result.atsWarnings.length > 0 && renderATSWarnings(result.atsWarnings)}
+            {result.grammarAndTone && renderGrammarAndTone(result.grammarAndTone)}
             {sections.map((section, sectionIndex) => (
-                <Card key={section.title + sectionIndex} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${sectionIndex * 100}ms` }}>
+                <Card key={section.title + sectionIndex} className="animate-in fade-in slide-in-from-bottom-4">
                     {section.kind === 'score' ? (
                         <>
                             <div className="flex items-center gap-4 mb-6">

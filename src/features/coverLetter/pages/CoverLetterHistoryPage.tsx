@@ -38,7 +38,7 @@ export const CoverLetterHistoryPage: React.FC = () => {
     const renderHistoryList = () => (
         <div className="flex flex-col gap-6">
             {history.map((coverLetter, index) => (
-                <div key={coverLetter._id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
+                <div key={coverLetter._id} className="animate-in fade-in slide-in-from-bottom-4">
                     <CoverLetterItem
                         coverLetter={coverLetter}
                         onDelete={deleteCoverLetter}

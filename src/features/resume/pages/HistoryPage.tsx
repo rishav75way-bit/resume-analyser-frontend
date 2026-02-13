@@ -43,7 +43,7 @@ export const HistoryPage: React.FC = () => {
     const renderHistoryList = () => (
         <div className="flex flex-col gap-6">
             {history.map((analysis, index) => (
-                <div key={analysis._id} className="animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: `${index * 50}ms` }}>
+                <div key={analysis._id} className="animate-in fade-in slide-in-from-bottom-4">
                     <HistoryItem
                         analysis={analysis}
                         onDelete={deleteAnalysis}

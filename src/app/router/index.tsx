@@ -11,9 +11,12 @@ const LoginPage = lazy(() => import('../../features/auth/pages/LoginPage').then(
 const RegisterPage = lazy(() => import('../../features/auth/pages/RegisterPage').then(module => ({ default: module.RegisterPage })));
 const DashboardPage = lazy(() => import('../../features/resume/pages/DashboardPage').then(module => ({ default: module.DashboardPage })));
 const HistoryPage = lazy(() => import('../../features/resume/pages/HistoryPage').then(module => ({ default: module.HistoryPage })));
+const ComparePage = lazy(() => import('../../features/resume/pages/ComparePage').then(module => ({ default: module.ComparePage })));
 const AnalyticsPage = lazy(() => import('../../features/resume/pages/AnalyticsPage').then(module => ({ default: module.AnalyticsPage })));
 const CoverLetterPage = lazy(() => import('../../features/coverLetter/pages/CoverLetterPage').then(module => ({ default: module.CoverLetterPage })));
 const CoverLetterHistoryPage = lazy(() => import('../../features/coverLetter/pages/CoverLetterHistoryPage').then(module => ({ default: module.CoverLetterHistoryPage })));
+const DownloadResumePage = lazy(() => import('../../features/resume/pages/DownloadResumePage').then(module => ({ default: module.DownloadResumePage })));
+const ChatPage = lazy(() => import('../../features/resume/pages/ChatPage').then(module => ({ default: module.ChatPage })));
 
 const LazyLoginPage = () => (
     <Suspense fallback={null}>
@@ -39,6 +42,12 @@ const LazyHistoryPage = () => (
     </Suspense>
 );
 
+const LazyComparePage = () => (
+    <Suspense fallback={null}>
+        <ComparePage />
+    </Suspense>
+);
+
 const LazyAnalyticsPage = () => (
     <Suspense fallback={null}>
         <AnalyticsPage />
@@ -54,6 +63,18 @@ const LazyCoverLetterPage = () => (
 const LazyCoverLetterHistoryPage = () => (
     <Suspense fallback={null}>
         <CoverLetterHistoryPage />
+    </Suspense>
+);
+
+const LazyDownloadResumePage = () => (
+    <Suspense fallback={null}>
+        <DownloadResumePage />
+    </Suspense>
+);
+
+const LazyChatPage = () => (
+    <Suspense fallback={null}>
+        <ChatPage />
     </Suspense>
 );
 
@@ -99,6 +120,14 @@ export const router = createBrowserRouter([
                 ),
             },
             {
+                path: ROUTES.COMPARE,
+                element: (
+                    <ProtectedRoute>
+                        <LazyComparePage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
                 path: ROUTES.ANALYTICS,
                 element: (
                     <ProtectedRoute>
@@ -119,6 +148,22 @@ export const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <LazyCoverLetterHistoryPage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: ROUTES.DOWNLOAD_RESUME,
+                element: (
+                    <ProtectedRoute>
+                        <LazyDownloadResumePage />
+                    </ProtectedRoute>
+                ),
+            },
+            {
+                path: ROUTES.CHAT,
+                element: (
+                    <ProtectedRoute>
+                        <LazyChatPage />
                     </ProtectedRoute>
                 ),
             },

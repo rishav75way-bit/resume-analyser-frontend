@@ -62,6 +62,19 @@ export interface ATSWarning {
     recommendation: string;
 }
 
+export interface GrammarToneItem {
+    excerpt: string;
+    message: string;
+    suggestion: string;
+}
+
+export interface GrammarAndToneFeedback {
+    spelling: GrammarToneItem[];
+    grammar: GrammarToneItem[];
+    tone: GrammarToneItem[];
+    summary?: string;
+}
+
 export interface AIResultData {
     resumeScore?: number;
     scoreSummary?: string;
@@ -73,6 +86,7 @@ export interface AIResultData {
     lengthCheck?: ResumeLengthCheck;
     formattingIssues?: FormattingIssue[];
     atsWarnings?: ATSWarning[];
+    grammarAndTone?: GrammarAndToneFeedback;
 }
 
 export interface ResumeAnalysis {

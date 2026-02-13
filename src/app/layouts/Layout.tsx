@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
-import { FileSearch, History, LogOut, User, Menu, X, BarChart3, FileText } from 'lucide-react';
+import { FileSearch, History, LogOut, User, Menu, X, BarChart3, FileText, GitCompare, FileDown, ChevronDown, MessageCircle } from 'lucide-react';
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { logout } from '../store/slices/authSlice';
 import { ROUTES, LABELS, NAV_LINKS } from '../utils/constants';
@@ -9,8 +9,11 @@ import { Button } from '../components/Button';
 const NAV_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
     [ROUTES.DASHBOARD]: FileSearch,
     [ROUTES.HISTORY]: History,
+    [ROUTES.COMPARE]: GitCompare,
     [ROUTES.ANALYTICS]: BarChart3,
     [ROUTES.COVER_LETTER]: FileText,
+    [ROUTES.DOWNLOAD_RESUME]: FileDown,
+    [ROUTES.CHAT]: MessageCircle,
 };
 
 export const Layout: React.FC = () => {
@@ -19,6 +22,19 @@ export const Layout: React.FC = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [navDropdownOpen, setNavDropdownOpen] = useState(false);
+    const navDropdownRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!navDropdownOpen) return;
+        const handleClickOutside = (e: MouseEvent) => {
+            if (navDropdownRef.current && !navDropdownRef.current.contains(e.target as Node)) {
+                setNavDropdownOpen(false);
+            }
+        };
+        document.addEventListener('click', handleClickOutside);
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [navDropdownOpen]);
 
     const handleLogout = () => {
         dispatch(logout());
@@ -72,25 +88,47 @@ export const Layout: React.FC = () => {
                             </Link>
                             {isAuthenticated && (
                                 <>
-                                    <div className="hidden md:flex items-center gap-1">
-                                        {NAV_LINKS.map((link) => {
-                                            const Icon = NAV_ICONS[link.to];
-                                            const isActive = isActiveRoute(link.to);
-                                            return (
-                                                <Link
-                                                    key={link.to}
-                                                    to={link.to}
-                                                    className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 ${
-                                                        isActive
-                                                            ? 'bg-gradient-to-r from-primary-500/20 to-primary-600/20 text-primary-300 border border-primary-500/40 shadow-lg shadow-primary-500/10'
-                                                            : 'text-slate-400 hover:text-primary-300 hover:bg-slate-800/60 border border-transparent hover:border-slate-700/50'
-                                                    }`}
-                                                >
-                                                    {Icon && <Icon size={18} />}
-                                                    <span className="font-medium">{link.label}</span>
-                                                </Link>
-                                            );
-                                        })}
+                                    <div className="hidden md:block relative" ref={navDropdownRef}>
+                                        <button
+                                            type="button"
+                                            onClick={() => setNavDropdownOpen((o) => !o)}
+                                            className={`flex items-center gap-2.5 px-4 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 border ${
+                                                navDropdownOpen
+                                                    ? 'bg-gradient-to-r from-primary-500/20 to-primary-600/20 text-primary-300 border-primary-500/40 shadow-lg shadow-primary-500/10'
+                                                    : 'text-slate-400 hover:text-primary-300 hover:bg-slate-800/60 border-transparent hover:border-slate-700/50'
+                                            }`}
+                                            aria-expanded={navDropdownOpen}
+                                            aria-haspopup="true"
+                                        >
+                                            <Menu size={18} />
+                                            <span className="font-medium">
+                                                {NAV_LINKS.find((l) => isActiveRoute(l.to))?.label ?? LABELS.NAV_MENU}
+                                            </span>
+                                            <ChevronDown size={16} className={`transition-transform ${navDropdownOpen ? 'rotate-180' : ''}`} />
+                                        </button>
+                                        {navDropdownOpen && (
+                                            <div className="absolute left-0 top-full mt-1.5 min-w-[200px] py-2 rounded-xl bg-slate-800/95 border border-slate-700/60 shadow-xl shadow-black/30 backdrop-blur-xl z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                                                {NAV_LINKS.map((link) => {
+                                                    const Icon = NAV_ICONS[link.to];
+                                                    const isActive = isActiveRoute(link.to);
+                                                    return (
+                                                        <Link
+                                                            key={link.to}
+                                                            to={link.to}
+                                                            onClick={() => setNavDropdownOpen(false)}
+                                                            className={`flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200 ${
+                                                                isActive
+                                                                    ? 'bg-primary-500/20 text-primary-300 font-semibold'
+                                                                    : 'text-slate-300 hover:bg-slate-700/60 hover:text-primary-300'
+                                                            }`}
+                                                        >
+                                                            {Icon && <Icon size={18} />}
+                                                            <span>{link.label}</span>
+                                                        </Link>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
                                     <button
                                         onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
